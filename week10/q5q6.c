@@ -45,12 +45,23 @@ struct commodity {
 
 // return how many "Mars Bars" the bot's cargo contains
 int cargo_mars_bars(struct bot *b) {
-	return -1;
+    for(struct cargo *cur = b->cargo; cur != NULL; cur = cur->next) {
+        if (strcmp(cur->commodity->name, "Mars Bars") == 0) {
+            return cur->quantity;
+        }
+    }
+	return 0;
 }
 
 // return how many "Mars Bars" for sale at the current location
 int mars_bars_for_sale(struct bot *b) {
-	return -1;
+    struct location *l = b->location;
+	if (l->type == LOCATION_SELLER &&
+	    l->commodity != NULL &&
+	    strcmp(l->commodity->name, "Mars Bars") == 0) {
+	    return l->quantity;
+	}
+	return 0;
 }
 
 
